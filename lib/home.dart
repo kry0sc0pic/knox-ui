@@ -63,187 +63,189 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
-        child: Column(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Stack(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.shortestSide * 0.8,
-                      width: MediaQuery.of(context).size.shortestSide * 0.8,
-                      child: Chart(
-                        layers: layers,
-                        duration: Duration(milliseconds: 500),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Stack(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.shortestSide * 0.8,
+                        width: MediaQuery.of(context).size.shortestSide * 0.8,
+                        child: Chart(
+                          layers: layers,
+                          duration: Duration(milliseconds: 500),
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.shortestSide * 0.8,
-                      width: MediaQuery.of(context).size.shortestSide * 0.8,
-                      child: Center(
-                        child: Text.rich(TextSpan(
-                          children: [
-                            TextSpan(
-                                text: "\$",
-                                style: kNeueMachinaInktrap.copyWith(
-                                    fontSize: 32,
-                                    color: Colors.white.withOpacity(0.7))),
-                            TextSpan(
-                                text: "20,000",
-                                style: kNeueMachinaInktrap.copyWith(
-                                  fontSize: 36,
-                                )),
-                          ],
-                        )),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.shortestSide * 0.8,
+                        width: MediaQuery.of(context).size.shortestSide * 0.8,
+                        child: Center(
+                          child: Text.rich(TextSpan(
+                            children: [
+                              TextSpan(
+                                  text: "\$",
+                                  style: kNeueMachinaInktrap.copyWith(
+                                      fontSize: 32,
+                                      color: Colors.white.withOpacity(0.7))),
+                              TextSpan(
+                                  text: "20,000",
+                                  style: kNeueMachinaInktrap.copyWith(
+                                    fontSize: 36,
+                                  )),
+                            ],
+                          )),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    BalanceFilterChip(
-                      active: [Filters.all, Filters.bank].contains(filter),
-                      color: kBankColor,
-                      onTap: () {
-                        if (filter != Filters.bank) {
-                          setState(() {
-                            filter = Filters.bank;
-                          });
-                        } else {
-                          setState(() {
-                            filter = Filters.all;
-                          });
-                        }
-                      },
-                      text: "Bank",
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    BalanceFilterChip(
-                      active: [Filters.all, Filters.crypto].contains(filter),
-                      color: kCryptoColor,
-                      onTap: () {
-                        if (filter != Filters.crypto) {
-                          setState(() {
-                            filter = Filters.crypto;
-                          });
-                        } else {
-                          setState(() {
-                            filter = Filters.all;
-                          });
-                        }
-                      },
-                      text: "Crypto",
-                    )
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, "/method");
-              },
-              child: SizedBox(
-                height: 60,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: kGreyColor2,
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                  child: Center(
-                    child: Text(
-                      "Tap To Pay",
-                      style: kSpaceGrotesk.copyWith(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                    ],
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      BalanceFilterChip(
+                        active: [Filters.all, Filters.bank].contains(filter),
+                        color: kBankColor,
+                        onTap: () {
+                          if (filter != Filters.bank) {
+                            setState(() {
+                              filter = Filters.bank;
+                            });
+                          } else {
+                            setState(() {
+                              filter = Filters.all;
+                            });
+                          }
+                        },
+                        text: "Bank",
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      BalanceFilterChip(
+                        active: [Filters.all, Filters.crypto].contains(filter),
+                        color: kCryptoColor,
+                        onTap: () {
+                          if (filter != Filters.crypto) {
+                            setState(() {
+                              filter = Filters.crypto;
+                            });
+                          } else {
+                            setState(() {
+                              filter = Filters.all;
+                            });
+                          }
+                        },
+                        text: "Crypto",
+                      )
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, "/method");
+                },
+                child: SizedBox(
+                  height: 60,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: kGreyColor2,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: Center(
+                      child: Text(
+                        "Tap To Pay",
+                        style: kSpaceGrotesk.copyWith(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              children: [
-                Text(
-                  "Credit Cards",
-                  style: kSpaceGrotesk.copyWith(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: [Filters.all, Filters.bank].contains(filter)
-                        ? Colors.white
-                        : kFilterDisabledColor,
-                  ),
-                ),
-              ],
-            ),
-            if ([Filters.all, Filters.bank].contains(filter))
-              SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                child: Row(children: [
-                  BankCardWidget(
-                      card: BankCard(
-                    balance: 10000,
-                    cardHolderName: "Lov Grover",
-                    cardNumber: "1234 5678 9012 3456",
-                    cardType: CardTypes.mastercard,
-                    cvvCode: "123",
-                    expiryDate: "12/23",
-                  )),
-                  BankCardWidget(
-                      card: BankCard(
-                    balance: 1000,
-                    cardHolderName: "Grover",
-                    cardNumber: "1234 5678 3332 2133",
-                    cardType: CardTypes.visa,
-                    cvvCode: "233",
-                    expiryDate: "11/23",
-                  )),
-                  // BankCardWidget()
-                ]),
+              SizedBox(
+                height: 15,
               ),
-            Row(
-              children: [
-                Text(
-                  "Cryptocurrency",
-                  style: kSpaceGrotesk.copyWith(
+              Row(
+                children: [
+                  Text(
+                    "Credit Cards",
+                    style: kSpaceGrotesk.copyWith(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: [Filters.all, Filters.crypto].contains(filter)
+                      color: [Filters.all, Filters.bank].contains(filter)
                           ? Colors.white
-                          : kFilterDisabledColor),
-                ),
-              ],
-            ),
-            if ([Filters.all, Filters.crypto].contains(filter))
-              SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                child: Row(children: [
-                  CryptoCardWidget(
-                      wallet: CryptoWallet(
-                          walletName: "BITCOIN",
-                          walletAddress: "0XFF",
-                          balance: 10000,
-                          currency: Cryptocurrencies.bitcoin)),
-                  CryptoCardWidget(
-                    wallet: CryptoWallet(
-                        walletName: "POLYGON",
-                        walletAddress: "0XFF",
-                        balance: 5000,
-                        currency: Cryptocurrencies.polygon),
+                          : kFilterDisabledColor,
+                    ),
                   ),
-                  // CryptoCardWidget()
-                ]),
-              )
-          ],
+                ],
+              ),
+              if ([Filters.all, Filters.bank].contains(filter))
+                SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  child: Row(children: [
+                    BankCardWidget(
+                        card: BankCard(
+                      balance: 10000,
+                      cardHolderName: "Lov Grover",
+                      cardNumber: "1234 5678 9012 3456",
+                      cardType: CardTypes.mastercard,
+                      cvvCode: "123",
+                      expiryDate: "12/23",
+                    )),
+                    BankCardWidget(
+                        card: BankCard(
+                      balance: 1000,
+                      cardHolderName: "Grover",
+                      cardNumber: "1234 5678 3332 2133",
+                      cardType: CardTypes.visa,
+                      cvvCode: "233",
+                      expiryDate: "11/23",
+                    )),
+                    // BankCardWidget()
+                  ]),
+                ),
+              Row(
+                children: [
+                  Text(
+                    "Cryptocurrency",
+                    style: kSpaceGrotesk.copyWith(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: [Filters.all, Filters.crypto].contains(filter)
+                            ? Colors.white
+                            : kFilterDisabledColor),
+                  ),
+                ],
+              ),
+              if ([Filters.all, Filters.crypto].contains(filter))
+                SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  child: Row(children: [
+                    CryptoCardWidget(
+                        wallet: CryptoWallet(
+                            walletName: "BITCOIN",
+                            walletAddress: "0XFF",
+                            balance: 10000,
+                            currency: Cryptocurrencies.bitcoin)),
+                    CryptoCardWidget(
+                      wallet: CryptoWallet(
+                          walletName: "POLYGON",
+                          walletAddress: "0XFF",
+                          balance: 5000,
+                          currency: Cryptocurrencies.polygon),
+                    ),
+                    // CryptoCardWidget()
+                  ]),
+                )
+            ],
+          ),
         ),
       )),
     );

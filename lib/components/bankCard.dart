@@ -43,7 +43,7 @@ class BankCardWidget extends StatelessWidget {
       case CardTypes.mastercard:
         return "assets/icons/mastercard.svg";
       case CardTypes.apple_pay:
-        return 'assets/apple_pay.svg';
+        return 'assets/icons/apple.svg';
     }
   }
 

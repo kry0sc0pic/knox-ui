@@ -34,6 +34,37 @@ class PaymentMethodSelector extends StatefulWidget {
 class _PaymentMethodSelectorState extends State<PaymentMethodSelector>
     with TickerProviderStateMixin {
   late TabController controller;
+  final List<BankCard> cards = [
+    BankCard(
+      balance: 10000,
+      cardHolderName: "Lov Grover",
+      cardNumber: "1234 5678 9012 3456",
+      cardType: CardTypes.mastercard,
+      cvvCode: "123",
+      expiryDate: "12/23",
+    ),
+    BankCard(
+      balance: 1000,
+      cardHolderName: "Grover",
+      cardNumber: "1234 5678 3332 2133",
+      cardType: CardTypes.visa,
+      cvvCode: "233",
+      expiryDate: "11/23",
+    )
+  ];
+
+  final List<CryptoWallet> wallets = [
+    CryptoWallet(
+        walletName: "BITCOIN",
+        walletAddress: "0XFF",
+        balance: 10000,
+        currency: Cryptocurrencies.bitcoin),
+    CryptoWallet(
+        walletName: "POLYGON",
+        walletAddress: "0XFF",
+        balance: 5000,
+        currency: Cryptocurrencies.polygon),
+  ];
 
   @override
   void initState() {
@@ -90,45 +121,26 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector>
           children: [
             Column(
               children: [
-                BankCardWidget(
-                    expanded: true,
-                    card: BankCard(
-                      balance: 10000,
-                      cardHolderName: "Lov Grover",
-                      cardNumber: "1234 5678 9012 3456",
-                      cardType: CardTypes.mastercard,
-                      cvvCode: "123",
-                      expiryDate: "12/23",
-                    )),
-                BankCardWidget(
-                    expanded: true,
-                    card: BankCard(
-                      balance: 1000,
-                      cardHolderName: "Grover",
-                      cardNumber: "1234 5678 3332 2133",
-                      cardType: CardTypes.visa,
-                      cvvCode: "233",
-                      expiryDate: "11/23",
-                    )),
+                ...cards.map((e) => GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, '/waiting',
+                          arguments: {"card": e, "crypto": null}),
+                      child: BankCardWidget(
+                        card: e,
+                        expanded: true,
+                      ),
+                    ))
               ],
             ),
             Column(
               children: [
-                CryptoCardWidget(
-                    expanded: true,
-                    wallet: CryptoWallet(
-                        walletName: "BITCOIN",
-                        walletAddress: "0XFF",
-                        balance: 10000,
-                        currency: Cryptocurrencies.bitcoin)),
-                CryptoCardWidget(
-                  expanded: true,
-                  wallet: CryptoWallet(
-                      walletName: "POLYGON",
-                      walletAddress: "0XFF",
-                      balance: 5000,
-                      currency: Cryptocurrencies.polygon),
-                ),
+                ...wallets.map((e) => GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, '/waiting',
+                          arguments: {"card": null, "crypto": e}),
+                      child: CryptoCardWidget(
+                        wallet: e,
+                        expanded: true,
+                      ),
+                    ))
               ],
             )
           ],

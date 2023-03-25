@@ -17,14 +17,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:knox/consts.dart';
 import 'package:after_layout/after_layout.dart';
+import 'package:knox/models/bank_card.dart';
+import 'package:knox/models/crypto_wallet.dart';
+import 'package:knox/models/transaction.dart';
 
 class WaitingForTapScreen extends StatefulWidget {
   const WaitingForTapScreen({super.key, required this.paymentMethod});
-  final dynamic paymentMethod;
+  final Map<String, dynamic> paymentMethod;
 
   @override
   State<WaitingForTapScreen> createState() => _WaitingForTapScreenState();
 }
+
+enum _PaymentOption { crypto, card }
 
 class _WaitingForTapScreenState extends State<WaitingForTapScreen>
     with TickerProviderStateMixin, AfterLayoutMixin<WaitingForTapScreen> {
@@ -42,8 +47,15 @@ class _WaitingForTapScreenState extends State<WaitingForTapScreen>
   late AnimationController _controller3;
   late Animation circleAnimation3;
   late Animation strokeAnimation3;
+
+  // payment setup
+  late _PaymentOption _paymentOption;
+  late CryptoWallet? _wallet;
+  late BankCard? _card;
+
   @override
   void initState() {
+    // animation 1
     _controller1 = AnimationController(
         vsync: this,
         duration: Duration(seconds: 3),
@@ -54,7 +66,7 @@ class _WaitingForTapScreenState extends State<WaitingForTapScreen>
     _controller1.addListener(() {
       setState(() {});
     });
-
+    // animation 2
     _controller2 = AnimationController(
         vsync: this,
         duration: Duration(
@@ -67,7 +79,7 @@ class _WaitingForTapScreenState extends State<WaitingForTapScreen>
     _controller2.addListener(() {
       setState(() {});
     });
-
+// animation 3
     _controller3 = AnimationController(
         vsync: this,
         duration: Duration(seconds: 3),
@@ -78,7 +90,17 @@ class _WaitingForTapScreenState extends State<WaitingForTapScreen>
     _controller3.addListener(() {
       setState(() {});
     });
-
+    // payment
+    final Map<String, dynamic> paymentMethod = widget.paymentMethod;
+    if (paymentMethod["crypto"] != null) {
+      _wallet = paymentMethod["crypto"];
+      _card = null;
+      _paymentOption = _PaymentOption.crypto;
+    } else {
+      _card = paymentMethod["card"];
+      _wallet = null;
+      _paymentOption = _PaymentOption.card;
+    }
     super.initState();
   }
 
@@ -94,6 +116,9 @@ class _WaitingForTapScreenState extends State<WaitingForTapScreen>
 
   @override
   void dispose() {
+    _controller1.stop();
+    _controller2.stop();
+    _controller3.stop();
     _controller1.dispose();
     _controller2.dispose();
     _controller3.dispose();
@@ -116,18 +141,6 @@ class _WaitingForTapScreenState extends State<WaitingForTapScreen>
       body: SafeArea(
         child: Stack(
           children: [
-            // Center(
-            //   child: Container(
-            //     margin: EdgeInsets.only(bottom: 10),
-            //     height: circleAnimation3.value,
-            //     width: circleAnimation3.value,
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.all(Radius.circular(10000)),
-            //       border: Border.all(
-            //           color: kOrangishYellow, width: strokeAnimation3.value),
-            //     ),
-            //   ),
-            // ),
             Center(
               child: Container(
                 margin: EdgeInsets.only(bottom: 10),
@@ -176,19 +189,27 @@ class _WaitingForTapScreenState extends State<WaitingForTapScreen>
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        //TODO: add payment method icon
-                      ],
+                      children: [],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text.rich(
                           TextSpan(children: [
-                            TextSpan(text: "Paying using"),
                             TextSpan(
-                                text:
-                                    "MATIC" // replace with crypto or **** 1234 for card
+                                text: "Paying using ",
+                                style: kSpaceGrotesk.copyWith(fontSize: 20)),
+                            TextSpan(
+                                text: _paymentOption == _PaymentOption.card
+                                    ? "**** " +
+                                        _card!.cardNumber.substring(
+                                            _card!.cardNumber.length - 4,
+                                            _card!.cardNumber.length)
+                                    : _wallet!.walletName,
+                                style: kSpaceGrotesk.copyWith(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight
+                                        .bold) // replace with crypto or **** 1234 for card
                                 )
                           ]),
                         )
@@ -198,15 +219,49 @@ class _WaitingForTapScreenState extends State<WaitingForTapScreen>
                 )
               ],
             ),
-            Center(
-              child: SvgPicture.asset(
-                "assets/icons/logo.svg",
-                color: kPinkColor,
+            GestureDetector(
+              onTap: () {
+                final Transaction transaction = new Transaction(
+                    id: "0x124",
+                    amount: 10.0,
+                    to: "Walmart LLC",
+                    bankCard: _card,
+                    cryptoWallet: _wallet);
+                Navigator.pushReplacementNamed(context, "/confirm",
+                    arguments: transaction);
+              },
+              child: Center(
+                child: SvgPicture.asset(
+                  "assets/icons/logo.svg",
+                  color: kPinkColor,
+                ),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+svgSizeFromCard(cardType) {
+  switch (cardType) {
+    case CardTypes.visa:
+      return 20.0;
+    case CardTypes.mastercard:
+      return 30.0;
+    case CardTypes.apple_pay:
+      return 60.0;
+  }
+}
+
+assetFromCard(cardType) {
+  switch (cardType) {
+    case CardTypes.visa:
+      return "assets/icons/visa.svg";
+    case CardTypes.mastercard:
+      return "assets/icons/mastercard.svg";
+    case CardTypes.apple_pay:
+      return 'assets/icons/apple.svg';
   }
 }
