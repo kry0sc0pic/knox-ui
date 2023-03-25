@@ -21,7 +21,7 @@
 ### Knox is a contactless payments app powered by quantum key distribution ~~and superdense coding~~.
 <br>
 
-This was built as a capstone project for the  [Introduction to Qunatum Computing with IBM Quantum Course.](https://www.qubitbyqubit.org/course-info)
+This was built as a capstone project for the  [Introduction to Quantum Computing with IBM Quantum Course.](https://www.qubitbyqubit.org/course-info)
 
 ## Knox Repositories
 |Component | Repository |
