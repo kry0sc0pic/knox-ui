@@ -62,6 +62,7 @@ Use the apk which is generated in the `build/app/outputs/flutter-apk` folder.
 - [Anaya Satavalekar]()
 - [Tanjin Adnan Abir](https://github.com/abirtanjinadnan)
 - [Muralika M](https://github.com/muralikapj)
+- [Kauã Eduardo Ecker](https://github.com/KauaEduardoEcker)
 
 ## License
 [GNU AGPLv3](https://choosealicense.com/licenses/agpl-3.0/)
