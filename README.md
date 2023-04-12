@@ -23,6 +23,9 @@
 
 This was built as a capstone project for the  [Introduction to Quantum Computing with IBM Quantum Course.](https://www.qubitbyqubit.org/course-info)
 
+## [Whitepaper](https://drive.google.com/file/d/1oyfNhicfGf2Az3iTBVFY2OjGDA6GHGZY/view?usp=sharing)
+
+
 ## Knox Repositories
 |Component | Repository |
 --- | ---
